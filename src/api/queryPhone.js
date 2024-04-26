@@ -7,4 +7,6 @@ function queryLocation (phone) {
   })
 }
 
+
+
 export default queryLocation
