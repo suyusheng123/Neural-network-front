@@ -14,17 +14,20 @@
             <!-- <el-input v-model="code" style="width: 600px" placeholder="请输入验证码" type="text" class="input-full-width" /> -->
           </div>
           <el-button type="primary"  @click="login">登录</el-button>
-          <el-button type="primary"  @click="login">注册</el-button>
+          <el-button type="primary"  @click="ToSign">前往注册</el-button>
         </el-form>
         </div>
       </el-main>
-      <el-footer>Footer</el-footer>
+      <el-footer>
+        <FooterComponent />
+      </el-footer>
     </el-container>
   </div>
 </template>  
 
 <script setup>
 import HeaderMenu from '../components/HeaderMenu.vue'
+import FooterComponent from '../components/FooterComponent.vue'
 import { ref } from 'vue'
 import axios from 'axios';
 const phone = ref('')
@@ -65,8 +68,18 @@ const login = async (phone,password) => {
   throw error;  
 }  
 };  
-
 </script> 
+
+<script>
+export default {  
+  methods: {  
+    ToSign() {  
+      // 使用 Vue Router 的 push 方法进行页面跳转  
+      this.$router.push({ path: '/sign' });  
+    }  
+  }  
+} 
+</script>
 
   
 <style scoped>

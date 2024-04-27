@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import {queryLocation,} from '@/api/queryPhone.js'
+import {queryLocation} from '@/api/queryPhone.js'
 import { ref } from 'vue'
 
 const phoneNumber = ref(null)

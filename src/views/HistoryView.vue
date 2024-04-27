@@ -4,27 +4,19 @@
             <el-header>
               <HeaderMenu />
             </el-header>
-            <el-main>Main</el-main>
+            <el-main>Main
+                <p>HistoryView</p>
+            </el-main>
             <el-footer>
               <FooterComponent /> 
             </el-footer>
         </el-container>
     </div>
 </template>  
-<script>  
+<script setup>  
 import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
-export default {   
-  data() {  
-    return {  
-      // 这里是你的数据  
-    }  
-  },  
-  components: {
-    HeaderMenu,
-    FooterComponent,
-  },  
-}  
+
 </script> 
   <!-- <script lang="ts" setup>  
   import { ref } from 'vue'
@@ -35,6 +27,6 @@ const handleSelect = (key: string,keyPath: string[]) => {
   console.log(key, keyPath)
 }
   </script>   -->
-  
+    
 <style scoped>  /* 这里是你的样式 */
 </style>
