@@ -11,6 +11,7 @@
             <div class="input-area">
               <el-input v-model="phone" style="width: 600px" placeholder="请输入手机号" type="text" class="input-full-width" />
               <el-input v-model="password" style="width: 600px" placeholder="请输入密码"  type="password" show-password class="input-full-width" />
+              <el-input v-model="confirmPassword" style="width: 600px" placeholder="请再次输入密码"  type="password" show-password class="input-full-width" />
               <!-- <el-input v-model="code" style="width: 600px" placeholder="请输入验证码" type="text" class="input-full-width" /> -->
             </div>
             <el-button type="primary"  @click="Sign">注册</el-button>
@@ -30,16 +31,18 @@
   import axios from 'axios';
   const phone = ref('')
   const password = ref('')
+  const confirmPassword = ref('')
   
-  const Sign = async (phone,password) => {
+  const Sign = async () => {
     try {  
      // 定义登录API的URL  
-     const url = '/user/sign';  
+     const url = '/user/register';  
     
     // 发送POST请求，包含登录信息  
     const response = await axios.post(url, {  
-      phone: phone,  
-      password: password,  
+      phone: phone.value,  
+      password: password.value, 
+      confirmPassword:confirmPassword.value,
     });  
   
     // 检查响应状态码  

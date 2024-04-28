@@ -7,7 +7,7 @@ import SignView from '../views/SignView.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/2',
     name: 'home',
     component: HomeView
   },
@@ -20,7 +20,7 @@ const routes = [
 
   {
     //首页
-    path: '/2',
+    path: '/',
     name: 'HomePage',
     component: HomePage
   },
@@ -45,6 +45,14 @@ const routes = [
     name: 'HistoryView',
     component: () => import('../views/HistoryView.vue')
   },
+
+  {
+    //识别
+    path: '/recognize',
+    name: 'RecognizeView',
+    component: () => import('../views/RecognizeView.vue')
+  },
+
 
 
 

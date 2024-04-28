@@ -1,24 +1,19 @@
-<template>  
-  <div>  
-    <!-- 这里是你的页面内容 -->  
-    <h1>这是新的页面</h1>  
-  </div>  
-</template>  
-  
-<script>  
-export default {  
-  name: 'NewPage',  
-  data() {  
-    return {  
-      // 这里是你的数据  
-    }  
-  },  
-  methods: {  
-    // 这里是你的方法  
-  }  
-}  
-</script>  
-  
-<style scoped>  
-/* 这里是你的样式 */  
+<template>
+  <div class="example-pagination-block">
+    <div class="example-demonstration">When you have few pages</div>
+    <el-pagination layout="prev, pager, next" :total="50" />
+  </div>
+  <div class="example-pagination-block">
+    <div class="example-demonstration">When you have more than 7 pages</div>
+    <el-pagination layout="prev, pager, next" :total="1000" />
+  </div>
+</template>
+
+<style scoped>
+.example-pagination-block + .example-pagination-block {
+  margin-top: 10px;
+}
+.example-pagination-block .example-demonstration {
+  margin-bottom: 16px;
+}
 </style>
