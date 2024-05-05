@@ -12,9 +12,8 @@
               <el-input v-model="phone" style="width: 600px" placeholder="请输入手机号" type="text" class="input-full-width" />
               <el-input v-model="password" style="width: 600px" placeholder="请输入密码"  type="password" show-password class="input-full-width" />
               <el-input v-model="confirmPassword" style="width: 600px" placeholder="请再次输入密码"  type="password" show-password class="input-full-width" />
-              <!-- <el-input v-model="code" style="width: 600px" placeholder="请输入验证码" type="text" class="input-full-width" /> -->
             </div>
-            <el-button type="primary"  @click="Sign">注册</el-button>
+            <el-button type="primary"  @click="sign">注册</el-button>
             <el-button type="primary"  @click="ToLogin">返回登录</el-button>
           </el-form>
           </div>
@@ -33,7 +32,8 @@
   const password = ref('')
   const confirmPassword = ref('')
   
-  const Sign = async () => {
+  const sign = async () => {
+    alert("124")
     try {  
      // 定义登录API的URL  
      const url = '/user/register';  
@@ -59,7 +59,7 @@
       return token; // 或者返回其他需要的数据  
     } else {  
       // 处理非200状态码的情况  
-      throw new Error('注册失败，服务器返回非200状态码');  
+      throw new Error('注册失败,服务器返回非200状态码');  
     }  
   } catch (error) {  
     // 请求失败或登录失败，显示错误信息  
