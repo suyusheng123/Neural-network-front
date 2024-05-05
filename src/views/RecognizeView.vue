@@ -19,12 +19,13 @@
             </div>
           </template> -->
         </el-upload>
-        <el-button type="success" @click="Recognition">开始识别</el-button>
+        <el-button type="success" @click="Recognition">开始识别
 
             <div class="demo-image__preview" v-if="isShow">
               <el-image style="width: 500px; height: 500px" :src="urlPath" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
                 :preview-src-list="srcList" :initial-index="4" fit="cover" />
             </div>
+          </el-button>
       </el-main>
       <el-footer>
         <FooterComponent />
@@ -103,7 +104,8 @@ const Recognition = async () => {
     // 处理成功的响应
     console.log('识别成功', response.data);
     isShow.value = true;
-    urlPath.value = "D:/hz.jpg"
+    urlPath.value = "/image/recognize/" + response.data.data.newAddress;
+    alert(urlPath.value)
     // 这里可以添加更多的处理逻辑
   } else {
     // 处理非200状态码的情况  
