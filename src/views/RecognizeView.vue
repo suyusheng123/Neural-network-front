@@ -70,7 +70,7 @@ const Recognition = async () => {
     console.log('识别成功', response.data);
     isShow.value = true;
     urlPath.value = "/image/recognize/" + response.data.data.newAddress;
-    srcList[0] = srcList[0] + urlPath.value;
+    srcList[0] = "http://localhost:8081" + urlPath.value;
     // alert(urlPath.value)
     // 这里可以添加更多的处理逻辑
   } else {
@@ -82,7 +82,6 @@ const Recognition = async () => {
 
 const srcList = [
   // 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    "http://localhost:8081"
   // alert( urlPath.value),
 ]
 
