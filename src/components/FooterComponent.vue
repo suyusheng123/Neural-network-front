@@ -1,8 +1,7 @@
 <template>  
     <footer class="footer">  
       <div class="footer-content">  
-        <!-- <p>© 2024 信息安全人工智能.</p>  
-        <p>HYIT 淮阴工学院 </p>   -->
+        <p>© 2024 信息安全人工智能 淮阴工学院 </p>  
         <!-- 可以添加更多项目信息 -->  
       </div>  
     </footer>  
@@ -17,8 +16,9 @@
     
   <style scoped>  
   .footer {  
+    height: auto;
     background-color: #f5f5f5;  
-    padding: 10px;  
+    padding: 5px;  
     text-align: center;  
     position: fixed;  
     left: 0;  
