@@ -52,9 +52,6 @@ const handleFileUpload = (res) => {
 };
 
 const Recognition = async () => {
-
-
-
   // 定义的URL  
   const url = '/image/recognize';
   // 发送POST请求 

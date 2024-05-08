@@ -33,7 +33,6 @@
   const confirmPassword = ref('')
   
   const sign = async () => {
-    alert("124")
     try {  
      // 定义登录API的URL  
      const url = '/user/register';  
