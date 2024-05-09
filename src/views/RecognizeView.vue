@@ -9,11 +9,26 @@
           <h1>yolo模型</h1>
           <h2>在保证识别准确度的前提下，可以有效防御对抗样本的攻击，识别并还原出原本的图片内容</h2>
         </div>
-        <el-upload ref="upload" action="http://localhost:8081/common/upload" :on-success="handleFileUpload" v-model:file-list="fileList"
+        <!-- <el-upload ref="upload" action="http://localhost:8081/common/upload" :on-success="handleFileUpload" v-model:file-list="fileList"
           class="upload-demo" multiple :on-preview="handlePreview" :on-remove="handleRemove" 
           :before-remove="beforeRemove" :limit="3" :on-exceed="handleExceed">
           <el-button type="primary">上传文件</el-button>
-        </el-upload>
+        </el-upload> -->
+        <el-upload :before-upload="uploadImage" action= "#" class="upload-demo"  drag multiple>
+      <el-icon class="el-icon--upload">
+        <img style="width: 80%;object-fit: cover;"  src="https://tse4-mm.cn.bing.net/th/id/OIP-C.X-5ho42VHJwTZg1ixPxo4wAAAA?w=211&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7" alt="">
+      </el-icon>
+      <div class="el-upload__text">
+        拖拽文件到此处，或者
+        <em>点击上传</em>
+        <p style="font-size: 13px">支持微信截图后在此处粘贴( Ctrl + v)</p>
+      </div>
+      <template #tip>
+        <div class="el-upload__tip">
+                   jpg/png files with a size less than 500kb
+        </div>
+      </template>
+    </el-upload>
         <el-button type="success" @click="Recognition">开始识别</el-button>
 
             <div class="demo-image__preview" v-if="isShow">
@@ -32,25 +47,110 @@
 import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import { ref } from 'vue';
-import axios from 'axios'; // 确保已经安装了axios  
+import axios from 'axios'; // 确保已经安装了axios
+import { ElLoading, ElMessage } from 'element-plus';
+ //图片base64
+//  let imgBase64 = ref('')  
 const uploadedImagePath = ref();
 const urlPath = ref(null)
 const isShow = ref(false)
-const fileList = ref([]); // 用于存储文件列表的响应式引用  
+// const fileList = ref([]); // 用于存储文件列表的响应式引用
+
 const fileType = ref({
  image: '',
- confThreshold: '',
- nmsThreshold: '',
+ confThreshold: '0.35',
+ nmsThreshold: '0.23',
 })
-const handleFileUpload = (res) => {
-  fileType.value.image = res.data.file
-  fileType.value.confThreshold = 0.35
-  fileType.value.nmsThreshold = 0.55
+ //上传图片
+ function uploadImage(file) {
+  console.log(file)
+      const isImage = file.type.startsWith('image/')
+      if (!isImage) {
+        ElMessage({
+          message: '只可以上传图片',
+          type: 'warning',
+        })
+        return isImage
+      }
+      // convertToBase64(file, async (base64String) => {
+      //   //发送请求
+        putImg(file)
+      // })
+      return false
+    }
 
-  uploadedImagePath.value = res.data.file
-  uploadedImagePath.value = "file:" + uploadedImagePath.value
-};
+     //转化图片为base64
+     function convertToBase64(file, callback) {
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        callback(event.target.result)
+      }
+      reader.readAsDataURL(file)
+    }
 
+    //监听剪切板函数
+    function handlePaste(event) {
+      const items = (event.clipboardData || window.clipboardData).items;
+      let file = null;
+ 
+      if (!items || items.length === 0) {
+        ElMessage({
+          message: '当前浏览器不支持本地',
+          type: 'error',
+        })
+        return;
+      }       
+    // 搜索剪切板items
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") !== -1) {
+          file = items[i].getAsFile();
+          break;
+        }
+      }
+      if (!file) {
+        ElMessage({
+          message: '粘贴内容非图片',
+          type: 'warning',
+        })
+        return;
+      }
+      convertToBase64(file, (base64Str) => {
+        alert(base64Str)
+        putImg(base64Str)
+      })
+    }
+    function putImg(base64Str) {
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      })
+  // 定义的URL  
+  const url = '/common/upload';
+  // 发送POST请求 
+  const response = axios.post(url, {
+    file: base64Str, // 使用上传后的文件路径
+  });
+   // 检查响应状态码  
+   if (response.data.code === 0) {
+    ElMessage({
+        message: "上传成功",
+        type: 'success',
+        duration: 5 * 1000
+      })
+       fileType.value.image = response.data.file;
+       //成功响应
+       loading.close()
+  } else {
+    ElMessage({
+        message: "上传失败",
+        type: 'error',
+        duration: 5 * 1000
+      })
+      loading.close()
+  }
+}
+document.addEventListener('paste', handlePaste) 
 const Recognition = async () => {
   // 定义的URL  
   const url = '/image/recognize';
