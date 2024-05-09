@@ -4,30 +4,32 @@
       <el-header>
         <HeaderMenu />
       </el-header>
-      <el-main>
-        <h1>History</h1>
-        <el-table :data="tableData" height="455" style="width: 100%">
-          <el-table-column prop="id" label="ID" width="180" />
-          <el-table-column label="原来的图片" width="150px">
+      <el-main style="margin-top: 0px">
+        <h1 style="margin-top: 0px">历史记录</h1>
+        <el-table :data="tableData" height="500px" style="width: 100%">
+          <el-table-column prop="id" label="ID" width="200" />
+          <el-table-column label="原来的图片" width="350px">
             <template #default="scope">
-              <el-image :src="uploadIp + scope.row.originalAddress" fit="cover"
+              <el-image :src="uploadIp + scope.row.originalAddress" fit="cover" style="height: 100px;width: 100px"
                 :preview-src-list="[uploadIp + scope.row.originalAddress]" preview-teleported="true"></el-image>
             </template>
           </el-table-column>
-          <el-table-column label="识别结果" width="150px">
+          <el-table-column label="识别结果" width="350px">
             <template #default="scope">
               <el-image :src="recIp + scope.row.newAddress" :preview-src-list="[recIp + scope.row.newAddress]"
-                fit="cover" preview-teleported="true"></el-image>
+                fit="cover" preview-teleported="true" style="height: 100px;width: 100px"></el-image>
             </template>
           </el-table-column>
-          <el-table-column prop="recognizeTime" label="处理时长" width="180" />
+          <el-table-column prop="recognizeTime" label="处理时长" width="200" />
           <el-table-column prop="createTime" label="处理日期" />
-        </el-table>
+        </el-table> 
         <el-pagination
-              :page-sizes="[2, 5, 10, 20]"
+              style="margin-top: 10px"
+              :page-sizes="[5, 10, 15, 20]"
               :page-size=pageInfo.pageSize
-              layout="total, sizes, prev, pager, next, jumper"
+              layout="->,total, sizes,->, prev, pager, next, jumper"
               :total=pageInfo.totals
+              :pager-count="11"
               :current-page=pageInfo.pageNum
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -47,7 +49,7 @@ import {reactive, ref} from 'vue';
 import axios from 'axios'; // 引入 axios  
 let pageInfo = reactive({
   pageNum: 1,
-  pageSize: 2,
+  pageSize: 5,
   totals: Number
 })
 // 初始化表格数据为一个空数组  
@@ -94,4 +96,5 @@ fetchImageData(pageInfo.pageNum, pageInfo.pageSize);
 // })
 
 </script>
-<style scoped></style>
+<style scoped>
+</style>

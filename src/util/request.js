@@ -18,15 +18,16 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
+    console.log(response.data)
     const res = response.data
-    if (res.code !== 20000) {
+    if (res.code === 500) {
       ElMessage({
-        message: res.msg || '错误',
+        message: res.newError || '错误',
         type: 'error',
         duration: 5 * 1000
       })
 
-      return Promise.reject(new Error(res.message || '错误'))
+      return Promise.reject(new Error(res.newError || '错误'))
     } else {
       return res
     }

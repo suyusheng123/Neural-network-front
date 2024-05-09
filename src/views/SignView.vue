@@ -28,6 +28,7 @@
   import FooterComponent from '../components/FooterComponent.vue'
   import { ref } from 'vue'
   import axios from 'axios';
+  import { ElMessage } from 'element-plus'
   const phone = ref('')
   const password = ref('')
   const confirmPassword = ref('')
@@ -45,27 +46,22 @@
     });  
   
     // 检查响应状态码  
-    if (response.status === 200) {  
-      // 注册成功，处理成功逻辑  
-      // 假设后端返回了一个包含token的响应体  
-      const { token } = response.data;  
-  
-      // 保存token，例如到localStorage  
-      localStorage.setItem('token', token);  
-  
-      // 通知调用者注册成功，或进行其他操作  
-      console.log('注册成功');  
-      return token; // 或者返回其他需要的数据  
-    } else {  
-      // 处理非200状态码的情况  
-      throw new Error('注册失败,服务器返回非200状态码');  
+    if (response.data.code === 0) {
+      ElMessage({
+        message: "注册成功",
+        type: 'success',
+        duration: 5 * 1000
+      })
+    } else {
+      ElMessage({
+        message: response.data.newError,
+        type: 'error',
+        duration: 5 * 1000
+      })
     }  
   } catch (error) {  
-    // 请求失败或登录失败，显示错误信息  
-    console.error('注册请求失败：', error);  
-    alert('注册失败，请检查您的账号、密码或验证码是否正确，或稍后再试。');  
-    // 可以在这里抛出错误，让调用者处理  
-    throw error;  
+     // 处理非200状态码的情况  
+     throw new Error('注册失败,服务器返回非200状态码');  
   }  
   };  
   </script> 

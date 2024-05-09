@@ -31,7 +31,8 @@
 import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import { ref } from 'vue'
-import axios from 'axios';
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
 const phone = ref('')
 const password = ref('')
 
@@ -47,21 +48,20 @@ const login = async () => {
       password: password.value // 使用响应式引用的值 
     });
     // 检查响应状态码  
-    if (response.status === 200) {
-      // 登录成功，处理成功逻辑  
-      // 假设后端返回了一个包含token的响应体  
-      const { token } = response.data;
-
-      // 保存token，例如到localStorage  
-      localStorage.setItem('token', token);
-
-      // 通知调用者登录成功，或进行其他操作  
-      console.log('登录成功');
-      alert('登录成功')
-      return token; // 或者返回其他需要的数据  
+    if (response.data.code === 0) {
+      ElMessage({
+        message: "登录成功",
+        type: 'success',
+        duration: 5 * 1000
+      })
     } else {
-      // 处理非200状态码的情况  
-      throw new Error('登录失败，服务器返回非200状态码');
+      // // 处理非200状态码的情况  
+      // throw new Error('登录失败，服务器返回非200状态码');
+      ElMessage({
+        message: "登录失败",
+        type: 'error',
+        duration: 5 * 1000
+      })
     }
   } catch (error) {
     // 请求失败或登录失败，显示错误信息  
