@@ -31,11 +31,7 @@
               :current-page=pageInfo.pageNum
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-          >
-          <template v-slot:total>
-            <span>共 {{ pageInfo.totals }} 条数据，{{ pageInfo.pageSize }} 条/页</span>
-          </template>
-          </el-pagination>
+          />
       </el-main>
       <el-footer>
         <FooterComponent />
