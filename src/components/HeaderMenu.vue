@@ -1,6 +1,4 @@
 <template>
-  <!-- <div class="common-layout"> -->
-  <!-- <el-container> -->
   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#141414"
     text-color="#fff" active-text-color="#ffd04b" :ellipsis="false" @select="handleSelect">
     <el-menu-item index="0">
@@ -15,9 +13,6 @@
       <el-menu-item index="4-1" @click="logout">退出</el-menu-item>
     </el-sub-menu>
   </el-menu>
-
-  <!-- </el-container> -->
-  <!-- </div> -->
 </template>
 
 <script setup>
@@ -28,28 +23,23 @@ const router = useRouter() // 创建路由实例
 const activeIndex = ref('1')
 const handleSelect = () => {
 }
-const logout =async ()=>{
-  const url = '/user/logout';
-  const response = await axios.post(url, {  
-
-  });  
-   // 检查响应状态码  
-   if (response.status === 200) {  
-    // 登录成功，处理成功逻辑  
-    // 假设后端返回了一个包含token的响应体  
-    const { token } = response.data;  
-
-    // 保存token，例如到localStorage  
-    localStorage.setItem('token', token);  
-
-    // 通知调用者登录成功，或进行其他操作  
-    console.log('登录成功');  
-    return token; // 或者返回其他需要的数据  
-  } else {  
-    // 处理非200状态码的情况  
-    throw new Error('登录失败，服务器返回非200状态码');  
+const logout = async () => {  
+  try {  
+    const url = '/user/logout'  
+    await axios.post(url) // 如果服务器不需要数据，可以保持为空  
+  
+    // 清除用户的登录状态（例如，从 localStorage 中移除 token）  
+    localStorage.removeItem('userToken')  
+  
+    // 导航到登录页面  
+    router.push('/login')  
+  } catch (error) {  
+    console.error('Logout failed:', error)  
+    // 在这里可以处理错误，比如显示一个通知给用户  
   }  
-}
+}  
+  
+
 
 const ToLogin = () => {
   activeIndex.value = '4';

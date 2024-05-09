@@ -17,7 +17,7 @@
         <el-button type="success" @click="Recognition">开始识别</el-button>
 
             <div class="demo-image__preview" v-if="isShow">
-              <el-image style="width: 600px; height: 700px" :src="urlPath" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
+              <el-image style="width: auto; height: auto" :src="urlPath" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
                 :preview-src-list="srcList" :initial-index="4" fit="cover" />
             </div>
           
@@ -76,6 +76,7 @@ const Recognition = async () => {
   }
 }
 
+// http://localhost:8081/image/recognize/地址
 
 const srcList = [
   // 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
@@ -83,7 +84,6 @@ const srcList = [
 ]
 
 </script>
-ss
 
 <style scoped>
 .demo-image__error .image-slot {

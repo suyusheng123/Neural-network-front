@@ -6,141 +6,96 @@
       </el-header>
       <el-main>
         <h1>History</h1>
-        <div class="ShouSuoYiLan">
-          
-        <div class="date-picker-container">
-          <div class="demo-date-picker">
-            <div class="block">
-              <!-- <p>Component value：{{ value }}</p> -->
-              <el-date-picker v-model="value" type="daterange" start-placeholder="Start date" end-placeholder="End date"
-                :default-time="defaultTime" />
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-4">
-          <el-input v-model="input3" style="max-width: 600px" placeholder="Please input" class="input-with-select">
-            <template #prepend>
-              <el-select v-model="select" placeholder="Select" style="width: 115px">
-                <el-option label="Restaurant" value="1" />
-                <el-option label="Order No." value="2" />
-                <el-option label="Tel" value="3" />
-              </el-select>
+        <el-table :data="tableData" height="455" style="width: 100%">
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column label="原来的图片" width="150px">
+            <template #default="scope">
+              <el-image :src="uploadIp + scope.row.originalAddress" fit="cover"
+                :preview-src-list="[uploadIp + scope.row.originalAddress]" preview-teleported="true"></el-image>
             </template>
-            <template #append>
-              <el-button :icon="Search" />
+          </el-table-column>
+          <el-table-column label="识别结果" width="150px">
+            <template #default="scope">
+              <el-image :src="recIp + scope.row.newAddress" :preview-src-list="[recIp + scope.row.newAddress]"
+                fit="cover" preview-teleported="true"></el-image>
             </template>
-          </el-input>
-        </div>
-
-        </div>
-       
-        <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="date" label="Date" width="180" />
-          <el-table-column prop="name" label="Name" width="180" />
-          <el-table-column prop="address" label="Address" />
+          </el-table-column>
+          <el-table-column prop="recognizeTime" label="处理时长" width="180" />
+          <el-table-column prop="createTime" label="处理日期" />
         </el-table>
+        <el-pagination
+              :page-sizes="[2, 5, 10, 20]"
+              :page-size=pageInfo.pageSize
+              layout="total, sizes, prev, pager, next, jumper"
+              :total=pageInfo.totals
+              :current-page=pageInfo.pageNum
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+          >
+          <template v-slot:total>
+            <span>共 {{ pageInfo.totals }} 条数据，{{ pageInfo.pageSize }} 条/页</span>
+          </template>
+          </el-pagination>
       </el-main>
       <el-footer>
         <FooterComponent />
       </el-footer>
     </el-container>
   </div>
-</template>  
+
+</template>
 <script setup>
 import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import {reactive, ref} from 'vue';
+import axios from 'axios'; // 引入 axios  
+let pageInfo = reactive({
+  pageNum: 1,
+  pageSize: 2,
+  totals: Number
+})
+// 初始化表格数据为一个空数组  
+const tableData = ref([]);
+// 原始ip地址
+const uploadIp = "http://localhost:8081/image/upload/";
+const recIp = 'http://localhost:8081/image/recognize/';
+// 预览图片地址
 
-const input3 = ref('')
-const select = ref('')
+// 定义一个方法来发送 GET 请求并更新表格数据 
+async function fetchImageData(pageNum, pageSize) {
+  try {
+    const response = await axios.get('/image/page', {
+      params: {
+        page: pageNum,
+        pageSize: pageSize
+      }
+    });
+    // 将records数组赋值给tableData  
+    // tableData.value = response.data.data.records;
+    tableData.value = response.data.data.records.map((item, index) => {
+      item.id = index + 1;
+      return item;
+    });
+    pageInfo.totals = response.data.data.total - 0
+  } catch (error) {
+    console.error('Error fetching image data:', error);
+    // 这里可以添加错误处理逻辑，比如显示错误信息给用户  
+  }
+}
+function handleSizeChange(pageSize){
+      pageInfo.pageSize=pageSize;
+      fetchImageData(pageInfo.pageNum, pageSize);
+}
+function handleCurrentChange(pageNum){
+      pageInfo.pageNum=pageNum;
+      fetchImageData(pageNum, pageInfo.pageSize);
+}
 
+fetchImageData(pageInfo.pageNum, pageInfo.pageSize);
+// watch([()=>pageInfo.pageNum,()=>pageInfo.pageSize], (newValue) => {
+//   //这里使用了skuSearchDto，不能使用watchEffect，否则在skuSearchDto变化的时候也会触发
+//   Search()
+// })
 
-const value = ref('')
-const defaultTime = ref < [Date, Date] > ([
-  new Date(2000, 1, 1, 0, 0, 0),
-  new Date(2000, 2, 1, 23, 59, 59),
-])
-
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
-
-</script> 
-    
-<style scoped>  
-.ShouSuoYiLan {  
-  display: flex; /* 使用Flexbox布局 */  
-  align-items: center; /* 垂直居中子元素 */  
-  /* justify-content: space-between; /* 移除这个，如果你想让元素都靠左 */  
-}  
-  
-.mt-4 {  
-  flex: 1; /* 允许元素在容器中伸缩 */  
-  margin-right: 10px; /* 添加右边距以分隔元素 */  
-}  
-  
-.date-picker-container {  
-  flex: 2; /* 允许元素在容器中伸缩 */  
-  margin-left: -450px; /* 负外边距使时间选择器左移 */  
-}  
-  
-.demo-date-picker {  
-  /* 保留原有的Flexbox样式 */  
-  display: flex;  
-  width: 100%;  
-  padding: 0;  
-  flex-wrap: wrap;  
-}  
-  
-.demo-date-picker .block {  
-  /* 保留原有的样式 */  
-  padding: 20px 0;  
-  text-align: center;  
-  border-right: solid 1px var(--el-border-color);  
-  flex: 1;  
-}  
-  
-.demo-date-picker .block:last-child {  
-  border-right: none;  
-}  
-  
-.input-with-select .el-input-group__prepend {  
-  background-color: var(--el-fill-color-blank);  
-}  
-</style>
+</script>
+<style scoped></style>
