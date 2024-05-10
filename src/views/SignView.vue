@@ -46,7 +46,7 @@
     });  
   
     // 检查响应状态码  
-    if (response.data.code === 0) {
+    if (response.status === 200 && response.data.code === 0) {
       ElMessage({
         message: "注册成功",
         type: 'success',
@@ -60,11 +60,14 @@
       })
     }  
   } catch (error) {  
-     // 处理非200状态码的情况  
-     throw new Error('注册失败,服务器返回非200状态码');  
-  }  
-  };  
-  </script> 
+     ElMessage({
+      message: "服务器错误",
+      type: 'error',
+      duration: 5 * 1000
+  }) 
+  }
+} 
+</script> 
   
   <script>
   export default {  

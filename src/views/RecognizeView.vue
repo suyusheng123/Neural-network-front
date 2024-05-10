@@ -60,7 +60,7 @@ const fileType = ref({
 })
 let loading = null;
 //上传图片
-function uploadImage(file) {
+async function uploadImage(file) {
   oldfile.value = file
   console.log(file)
   try {
@@ -76,7 +76,8 @@ function uploadImage(file) {
       console.log(fileList.value)
       throw new Error("请将上传的图片" + fileList.value[fileList.value.length - 1].name + "解析,再上传新的图片")
     } else {
-      putImg(file);
+      await putImg(file);
+      console.log(flag)
       if (flag) {
         console.log(file.name)
         fileList.value.push({
@@ -184,6 +185,7 @@ const putImg = async (file) => {
         duration: 5 * 1000
       })
       loading.close()
+      flag = false
     }
   } catch (error) {
     ElMessage({
@@ -192,6 +194,7 @@ const putImg = async (file) => {
       duration: 5 * 1000
     })
     loading.close()
+    flag = false
   }
 }
 document.addEventListener('paste', handlePaste)

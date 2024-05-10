@@ -48,15 +48,13 @@ const login = async () => {
       password: password.value // 使用响应式引用的值 
     });
     // 检查响应状态码  
-    if (response.data.code === 0) {
+    if (response.status === 200 && response.data.code === 0) {
       ElMessage({
         message: "登录成功",
         type: 'success',
         duration: 5 * 1000
       })
     } else {
-      // // 处理非200状态码的情况  
-      // throw new Error('登录失败，服务器返回非200状态码');
       ElMessage({
         message: "登录失败",
         type: 'error',
@@ -64,11 +62,11 @@ const login = async () => {
       })
     }
   } catch (error) {
-    // 请求失败或登录失败，显示错误信息  
-    console.error('登录请求失败：', error);
-    alert('登录失败，请检查您的账号、密码或验证码是否正确，或稍后再试。');
-    // 可以在这里抛出错误，让调用者处理  
-    throw error;
+    ElMessage({
+        message: "服务器错误",
+        type: 'error',
+        duration: 5 * 1000
+      })
   }
 };  
 </script>

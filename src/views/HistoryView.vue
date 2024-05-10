@@ -47,6 +47,7 @@ import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import {reactive, ref} from 'vue';
 import axios from 'axios'; // 引入 axios  
+import { ElMessage } from 'element-plus';
 let pageInfo = reactive({
   pageNum: 1,
   pageSize: 5,
@@ -68,6 +69,7 @@ async function fetchImageData(pageNum, pageSize) {
         pageSize: pageSize
       }
     });
+    if(response.status === 200 && response.data.code === 0){
     // 将records数组赋值给tableData  
     // tableData.value = response.data.data.records;
     tableData.value = response.data.data.records.map((item, index) => {
@@ -75,9 +77,19 @@ async function fetchImageData(pageNum, pageSize) {
       return item;
     });
     pageInfo.totals = response.data.data.total - 0
+  }else{
+     ElMessage({
+        message: "获取数据失败",
+        type: 'error',
+        duration: 5 * 1000
+    })
+  }
   } catch (error) {
-    console.error('Error fetching image data:', error);
-    // 这里可以添加错误处理逻辑，比如显示错误信息给用户  
+    ElMessage({
+        message: "服务器错误",
+        type: 'error',
+        duration: 5 * 1000
+    })  
   }
 }
 function handleSizeChange(pageSize){
