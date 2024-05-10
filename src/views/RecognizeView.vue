@@ -23,7 +23,7 @@
           </div>
           <template #tip>
             <div class="el-upload__tip">
-              只能上传图片,图片大小不能超过500KB,禁止上传文件
+              只能JPG，PNG，JPEG格式的图片，大小不能超过2MB
             </div>
           </template>
         </el-upload>
@@ -68,7 +68,7 @@ async function uploadImage(file) {
     if (!isImage) {
       throw new Error("只可以上传图片");
     }
-    if (file.size >= 500 * 1024) {
+    if (file.size >= 2 * 1024 * 1024) {
       throw new Error("文件太大,无法上传")
     }
     if ((fileList.value.length >= 1) && (fileList.value[fileList.value.length - 1].isRecognize === 0)) {
@@ -76,8 +76,7 @@ async function uploadImage(file) {
       console.log(fileList.value)
       throw new Error("请将上传的图片" + fileList.value[fileList.value.length - 1].name + "解析,再上传新的图片")
     } else {
-      await putImg(file);
-      console.log(flag)
+      putImg(file);
       if (flag) {
         console.log(file.name)
         fileList.value.push({
@@ -100,7 +99,7 @@ async function uploadImage(file) {
 
 
 //监听剪切板函数
-function handlePaste(event) {
+async function handlePaste(event) {
   const items = (event.clipboardData || window.clipboardData).items;
   let file = null;
 
@@ -132,7 +131,8 @@ function handlePaste(event) {
       console.log(fileList.value)
       throw new Error("请先解析" + fileList.value[fileList.value.length - 1].name + "图片")
     } else {
-      if (putImg(file))
+       await putImg(file);
+       if (flag)
         fileList.value.push({
           "name": file.name,
           "isRecognize": 0
