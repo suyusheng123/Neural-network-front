@@ -1,5 +1,5 @@
 import { ElMessage } from 'element-plus'
-import axios from 'axios'
+import axios, { HttpStatusCode } from 'axios'
 
 const service = axios.create({
   baseURL: 'http://localhost:8080',
@@ -8,9 +8,20 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    return config
+    if(config,HttpStatusCode === 500){
+      ElMessage({
+        message: '错误',
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
   },
   error => {
+    ElMessage({
+      message: error.message || '错误',
+      type: 'error',
+      duration: 5 * 1000
+    })
     console.log(error)
     return Promise.reject(error)
   }
@@ -18,9 +29,9 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
-    console.log(response.data)
-    const res = response.data
-    if (res.code === 500) {
+    console.log(response)
+    const res = response
+    if (res.status === 500) {
       ElMessage({
         message: res.newError || '错误',
         type: 'error',
