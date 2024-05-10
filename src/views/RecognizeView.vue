@@ -2,7 +2,7 @@
   <div class="common-layout">
     <el-container>
       <el-header>
-        <HeaderMenu />
+        <HeaderMenu/>
       </el-header>
       <el-main>
         <div style="margin-top:-25px">
@@ -10,11 +10,11 @@
           <h2>在保证识别准确度的前提下，可以有效防御对抗样本的攻击，识别并还原出原本的图片内容</h2>
         </div>
         <el-upload :before-upload="uploadImage" :on-success="handleSuccess" action="#" class="upload-demo"
-          v-model:file-list="fileList" show-file-list="true" drag multiple>
+                   v-model:file-list="fileList" show-file-list="true" drag multiple>
           <el-icon class="el-icon--upload">
             <img style="width: 80%;object-fit: cover;"
-              src="https://tse4-mm.cn.bing.net/th/id/OIP-C.X-5ho42VHJwTZg1ixPxo4wAAAA?w=211&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
-              alt="">
+                 src="https://tse4-mm.cn.bing.net/th/id/OIP-C.X-5ho42VHJwTZg1ixPxo4wAAAA?w=211&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+                 alt="">
           </el-icon>
           <div class="el-upload__text">
             拖拽文件到此处，或者
@@ -31,12 +31,12 @@
 
         <div class="demo-image__preview" v-if="isShow">
           <el-image style="width: auto; height: auto" :src="urlPath" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
-            :preview-src-list="srcList" :initial-index="4" fit="cover" />
+                    :preview-src-list="srcList" :initial-index="4" fit="cover"/>
         </div>
 
       </el-main>
       <el-footer>
-        <FooterComponent />
+        <FooterComponent/>
       </el-footer>
     </el-container>
   </div>
@@ -44,9 +44,10 @@
 <script setup>
 import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
-import { ref } from 'vue';
+import {ref} from 'vue';
 import axios from 'axios'; // 确保已经安装了axios
-import { ElLoading, ElMessage } from 'element-plus';
+import {ElLoading, ElMessage} from 'element-plus';
+
 const urlPath = ref(null)
 const isShow = ref(false)
 const fileList = ref([]) // 用于存储文件列表的响应式引用
@@ -59,6 +60,7 @@ const fileType = ref({
   nmsThreshold: '0.23',
 })
 let loading = null;
+
 //上传图片
 async function uploadImage(file) {
   oldfile.value = file
@@ -76,7 +78,7 @@ async function uploadImage(file) {
       console.log(fileList.value)
       throw new Error("请将上传的图片" + fileList.value[fileList.value.length - 1].name + "解析,再上传新的图片")
     } else {
-      putImg(file);
+      await putImg(file);
       if (flag) {
         console.log(file.name)
         fileList.value.push({
@@ -93,6 +95,7 @@ async function uploadImage(file) {
       type: 'error',
       duration: 5 * 1000
     })
+    loading.close();
     return false
   }
 }
@@ -131,8 +134,8 @@ async function handlePaste(event) {
       console.log(fileList.value)
       throw new Error("请先解析" + fileList.value[fileList.value.length - 1].name + "图片")
     } else {
-       await putImg(file);
-       if (flag)
+      await putImg(file);
+      if (flag)
         fileList.value.push({
           "name": file.name,
           "isRecognize": 0
@@ -201,7 +204,7 @@ document.addEventListener('paste', handlePaste)
 const Recognition = async () => {
   try {// 定义的URL  
     const url = '/image/recognize';
-     loading = ElLoading.service({
+    loading = ElLoading.service({
       lock: true,
       text: 'Loading',
       background: 'rgba(0, 0, 0, 0.7)',
