@@ -102,11 +102,6 @@ function handleCurrentChange(pageNum){
 }
 
 fetchImageData(pageInfo.pageNum, pageInfo.pageSize);
-// watch([()=>pageInfo.pageNum,()=>pageInfo.pageSize], (newValue) => {
-//   //这里使用了skuSearchDto，不能使用watchEffect，否则在skuSearchDto变化的时候也会触发
-//   Search()
-// })
-
 </script>
 <style scoped>
 </style>

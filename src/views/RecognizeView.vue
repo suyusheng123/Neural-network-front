@@ -231,7 +231,11 @@ const Recognition = async () => {
       loading.close()
     } else {
       loading.close()
-      throw new Error('识别失败');
+      ElMessage({
+        message: response.data.errorMessage.error,
+        type: 'error',
+        duration: 5 * 1000
+      })
     }
   } catch (error) {
     ElMessage({
