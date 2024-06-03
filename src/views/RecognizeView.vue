@@ -6,14 +6,14 @@
       </el-header>
       <el-main>
         <div style="margin-top:-25px">
-          <h1>yolo模型</h1>
-          <h2>在保证识别准确度的前提下，可以有效防御对抗样本的攻击，识别并还原出原本的图片内容</h2>
+          <h1>YOLOv8（You Only Look Once version 8）</h1>
+          <h2>一个深度学习框架，专门用于实现实时对象检测。作为系列的最新迭代，在保持实时检测特性的同时，显著提高了检测的准确性和速度。</h2>
         </div>
         <el-upload :before-upload="uploadImage" :on-success="handleSuccess" action="#" class="upload-demo"
           v-model:file-list="fileList" show-file-list="true" drag multiple>
           <el-icon class="el-icon--upload">
             <img style="width: 80%;object-fit: cover;"
-              src="https://tse4-mm.cn.bing.net/th/id/OIP-C.X-5ho42VHJwTZg1ixPxo4wAAAA?w=211&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+              src="../assets/上传.jpg"
               alt="">
           </el-icon>
           <div class="el-upload__text">
@@ -23,17 +23,18 @@
           </div>
           <template #tip>
             <div class="el-upload__tip">
-              只能JPG，PNG，JPEG格式的图片，大小不能超过2MB
+              可识别JPG，PNG，JPEG格式的图片，大小不宜超过2MB
             </div>
           </template>
         </el-upload>
-        <el-button type="success" @click="Recognition">开始识别</el-button>
-
+        <el-button size="large" type="success" @click="Recognition">开始识别</el-button>
+        <div>
+          <br>
+        </div>
         <div class="demo-image__preview" v-if="isShow">
           <el-image style="width: auto; height: auto" :src="urlPath" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
             :preview-src-list="srcList" :initial-index="4" fit="cover" />
         </div>
-
       </el-main>
       <el-footer>
         <FooterComponent />
@@ -240,7 +241,7 @@ const Recognition = async () => {
   }
 }
 
-// http://localhost:8081/image/recognize/地址
+// http://localhost:8081/image/recognize/地址0
 
 const srcList = [
   // 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',

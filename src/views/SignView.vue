@@ -13,7 +13,7 @@
               <el-input v-model="password" style="width: 600px" placeholder="请输入密码"  type="password" show-password class="input-full-width" />
               <el-input v-model="confirmPassword" style="width: 600px" placeholder="请再次输入密码"  type="password" show-password class="input-full-width" />
             </div>
-            <el-button type="primary"  @click="sign">注册</el-button>
+            <el-button type="success"  @click="sign">注册</el-button>
             <el-button type="primary"  @click="ToLogin">返回登录</el-button>
           </el-form>
           </div>

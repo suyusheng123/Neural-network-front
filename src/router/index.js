@@ -1,22 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import FirstTest from '../views/FirstTest.vue'
 import HomePage from '../views/HomePage.vue'
 import LoginView from '../views/LoginView.vue'
 import SignView from '../views/SignView.vue'
 
 const routes = [
-  {
-    path: '/2',
-    name: 'home',
-    component: HomeView
-  },
-  
-  {
-    path: '/1',
-    name: 'FirstTest',
-    component: FirstTest
-  },
 
   {
     //首页

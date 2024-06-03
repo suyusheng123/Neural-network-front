@@ -15,7 +15,7 @@
               <el-input v-model="password" style="width: 600px" placeholder="请输入密码" type="password" show-password
                 class="input-full-width" />
             </div>
-            <el-button type="primary" @click="login">登录</el-button>
+            <el-button type="success" @click="login">登录</el-button>
             <el-button type="primary" @click="ToSign">前往注册</el-button>
           </el-form>
         </div>
