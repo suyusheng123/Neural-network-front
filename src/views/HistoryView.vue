@@ -6,9 +6,9 @@
       </el-header>
       <el-main style="margin-top: 0px">
         <h1 style="margin-top: 0px">历史记录</h1>
-        <el-table :data="tableData" height="500px" style="width: 100%">
+        <el-table :data="tableData" height="550px" style="width: 100%">
           <el-table-column prop="id" label="ID" width="200" />
-          <el-table-column label="原来的图片" width="350px">
+          <el-table-column label="上传图片" width="350px">
             <template #default="scope">
               <el-image :src="uploadIp + scope.row.originalAddress" fit="cover" style="height: 100px;width: 100px"
                 :preview-src-list="[uploadIp + scope.row.originalAddress]" preview-teleported="true"></el-image>

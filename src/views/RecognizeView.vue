@@ -2,19 +2,19 @@
   <div class="common-layout">
     <el-container>
       <el-header>
-        <HeaderMenu/>
+        <HeaderMenu />
       </el-header>
       <el-main>
         <div style="margin-top:-25px">
-          <h1>yolo模型</h1>
-          <h2>在保证识别准确度的前提下，可以有效防御对抗样本的攻击，识别并还原出原本的图片内容</h2>
+          <h1>YOLOv8（You Only Look Once version 8）</h1>
+          <h2>一个深度学习框架，专门用于实现实时对象检测。作为系列的最新迭代，在保持实时检测特性的同时，显著提高了检测的准确性和速度。</h2>
         </div>
         <el-upload :before-upload="uploadImage" :on-success="handleSuccess" action="#" class="upload-demo"
-                   v-model:file-list="fileList" show-file-list="true" drag multiple>
+          v-model:file-list="fileList" show-file-list="true" drag multiple>
           <el-icon class="el-icon--upload">
             <img style="width: 80%;object-fit: cover;"
-                 src="https://tse4-mm.cn.bing.net/th/id/OIP-C.X-5ho42VHJwTZg1ixPxo4wAAAA?w=211&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
-                 alt="">
+              src="../assets/上传.jpg"
+              alt="">
           </el-icon>
           <div class="el-upload__text">
             拖拽文件到此处，或者
@@ -23,20 +23,21 @@
           </div>
           <template #tip>
             <div class="el-upload__tip">
-              只能JPG，PNG，JPEG格式的图片，大小不能超过2MB
+              可识别JPG，PNG，JPEG格式的图片，大小不宜超过2MB
             </div>
           </template>
         </el-upload>
-        <el-button type="success" @click="Recognition">开始识别</el-button>
-
+        <el-button size="large" type="success" @click="Recognition">开始识别</el-button>
+        <div>
+          <br>
+        </div>
         <div class="demo-image__preview" v-if="isShow">
           <el-image style="width: auto; height: auto" :src="urlPath" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
-                    :preview-src-list="srcList" :initial-index="4" fit="cover"/>
+            :preview-src-list="srcList" :initial-index="4" fit="cover" />
         </div>
-
       </el-main>
       <el-footer>
-        <FooterComponent/>
+        <FooterComponent />
       </el-footer>
     </el-container>
   </div>
@@ -44,10 +45,9 @@
 <script setup>
 import HeaderMenu from '../components/HeaderMenu.vue'
 import FooterComponent from '../components/FooterComponent.vue'
-import {ref} from 'vue';
+import { ref } from 'vue';
 import axios from 'axios'; // 确保已经安装了axios
-import {ElLoading, ElMessage} from 'element-plus';
-
+import { ElLoading, ElMessage } from 'element-plus';
 const urlPath = ref(null)
 const isShow = ref(false)
 const fileList = ref([]) // 用于存储文件列表的响应式引用
@@ -60,7 +60,6 @@ const fileType = ref({
   nmsThreshold: '0.23',
 })
 let loading = null;
-
 //上传图片
 async function uploadImage(file) {
   oldfile.value = file
@@ -95,7 +94,6 @@ async function uploadImage(file) {
       type: 'error',
       duration: 5 * 1000
     })
-    loading.close();
     return false
   }
 }
@@ -134,8 +132,8 @@ async function handlePaste(event) {
       console.log(fileList.value)
       throw new Error("请先解析" + fileList.value[fileList.value.length - 1].name + "图片")
     } else {
-      await putImg(file);
-      if (flag)
+       await putImg(file);
+       if (flag)
         fileList.value.push({
           "name": file.name,
           "isRecognize": 0
@@ -204,7 +202,7 @@ document.addEventListener('paste', handlePaste)
 const Recognition = async () => {
   try {// 定义的URL  
     const url = '/image/recognize';
-    loading = ElLoading.service({
+     loading = ElLoading.service({
       lock: true,
       text: 'Loading',
       background: 'rgba(0, 0, 0, 0.7)',
@@ -231,11 +229,7 @@ const Recognition = async () => {
       loading.close()
     } else {
       loading.close()
-      ElMessage({
-        message: response.data.errorMessage.error,
-        type: 'error',
-        duration: 5 * 1000
-      })
+      throw new Error('识别失败');
     }
   } catch (error) {
     ElMessage({
@@ -247,7 +241,7 @@ const Recognition = async () => {
   }
 }
 
-// http://localhost:8081/image/recognize/地址
+// http://localhost:8081/image/recognize/地址0
 
 const srcList = [
   // 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',

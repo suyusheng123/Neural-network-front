@@ -1,11 +1,11 @@
 <template>
   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false" @select="handleSelect">
     <el-menu-item>
-      <img style="width: 100px" src="../assets/logo.png" alt="logo" />
+      <img style="width: 70px" src="../assets/MyLogo.jpg" alt="logo" />
     </el-menu-item>
     <div class="flex-grow" />
     <el-menu-item index="/">首页</el-menu-item>
-    <el-menu-item index="/recognize">即刻识别</el-menu-item>
+    <el-menu-item index="/recognize">加密识别</el-menu-item>
     <el-menu-item index="/history">历史记录</el-menu-item>
     <el-sub-menu index="/login" @click="ToLogin">
       <template #title>登录</template>
